@@ -73,6 +73,11 @@ describe XMEllie do
 			xml = XMEllie.new "<first>"
 			expect { xml.first }.to raise_error
 		end
+
+		it "Missing opening tag" do
+			xml = XMEllie.new "</first>"
+			expect { xml.first }.to raise_error
+		end
 	end
 
 	describe "Single elements" do
