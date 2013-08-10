@@ -68,6 +68,13 @@ describe XMEllie do
 		end
 	end
 
+	describe "Malformed" do
+		it "Missing closing tag" do
+			xml = XMEllie.new "<first>"
+			expect { xml.first }.to raise_error
+		end
+	end
+
 	describe "Single elements" do
 		before { @xml = XMEllie.new '<first><seconda>contenta</seconda><secondb>contentb</secondb></first>' }
 
