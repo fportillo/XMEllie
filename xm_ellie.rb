@@ -7,12 +7,8 @@ class XMEllie
 	end
 
 	def method_missing (m, *args, &block)
-
 		raise "Empty element" if @xmls.empty?
-		
-		sub_xmls = parse m
-
-		XMEllie.new sub_xmls
+		XMEllie.new parse m
 	end
 
 	def content
