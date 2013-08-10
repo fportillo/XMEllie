@@ -78,6 +78,12 @@ describe XMEllie do
 			xml = XMEllie.new "</first>"
 			expect { xml.first }.to raise_error
 		end
+
+		it "Closing and opening different tag" do
+			xml = XMEllie.new "<first></second>"
+			expect { xml.first }.to raise_error
+			expect { xml.second }.to raise_error
+		end
 	end
 
 	describe "Single elements" do
