@@ -204,7 +204,7 @@ describe XMEllie do
 	describe "Props" do
 
 		it "Simple property" do
-			xml = '<first time="12345"></first>'
+			xml = XMEllie.new '<first time="12345"></first>'
 			[""].should eq xml.first.content
 
 		end
