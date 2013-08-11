@@ -5,20 +5,13 @@ end
 
 class XMEllies < Array
 
-	attr_reader :xmls
-
-	def initialize(xmls = [])
-		super xmls
-		@xmls = xmls
-	end
-
 	def method_missing (m, *args, &block)
 		a = []
 
-		@xmls.each do |x|
+		each do |x|
 			begin
 				b = (x.method_missing m, args, block)
-				a.concat b.xmls
+				a.concat b
 			rescue
 			end
 		end
@@ -30,16 +23,8 @@ class XMEllies < Array
 		XMEllies.new a 
 	end
 
-	def [](i)
-		@xmls[i]
-	end
-
-	def collect &block
-		@xmls.collect &block
-	end
-
 	def content
-		@xmls.collect do |x|
+		collect do |x|
 			content = x.content
 			
 			a = (content.index ">") + 1
@@ -64,10 +49,11 @@ class XMEllie
 	end
 
 	def props
+		return @props if (@props) 
+
 		a = (@content.index "<") + 1
 		b = (@content.index ">") - 1
-
-		create_props_map @content[a..b]
+		@props = create_props_map @content[a..b]
 	end
 
 	private
