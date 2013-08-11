@@ -1,5 +1,8 @@
 #TODO: Starting-closing elements. (e.g. <first />)
 
+class XMEllieException
+end
+
 class XMEllie
 
 	def initialize (xmls = [])
