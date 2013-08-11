@@ -13,6 +13,7 @@ class XMEllie
 	end
 
 	def method_missing (m, *args, &block)
+		@name = m
 		raise "Empty element" if @contents.empty?
 		XMEllie.new parse m
 	end
