@@ -144,13 +144,13 @@ describe XMEllie do
 
 	describe "GitHub README.md test" do
 
-		it "k" do
-			xml = XMEllie.new '<root a="true"> <second b="foo"> good </second> <second b="bar"> awesome </second> </root>'
-			"true".should eq xml.props[:a]
-			"foo".should eq xml.root.second[0].props[:b]
-			"bar".should eq xml.root.second[1].props[:b]
-			["good", "awesome"].should eq xml.root.second.content
-			["foo", "bar"].should eq xml.root.second.collect { |x| x.props[:b]}
+		it "First example" do
+			xml = XMEllie.new '  <user active="true"><name>thom</name><surname origin="brazil">silva</surname><surname origin="german">schmitz</surname></user>'
+			"true".should eq xml.props[:active]
+			"brazil".should eq xml.user.surname[0].props[:origin]
+			"german".should eq xml.user.surname[1].props[:origin]
+			["silva", "schmitz"].should eq xml.user.surname.content
+			["brazil", "german"].should eq xml.user.surname.collect { |x| x.props[:origin]}
 		end
 	end
 end
