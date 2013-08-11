@@ -193,6 +193,12 @@ describe XMEllie do
 			xml = XMEllie.new '<first><second><third>content1</third></second><second><third>content2</third></second></first>'
 			["content1", "content2"].should eq xml.first.second.third.content
 		end
+
+		it "Complex levels" do
+			xml = XMEllie.new '<first><second><third><fourth>content1</fourth></third></second><second><third>content2</third></second></first>'
+			["content1"].should eq xml.first.second.third.fourth.content
+			["<fourth>content1</fourth>", "content2"].should eq xml.first.second.third.content #should be this way?
+		end
 	end
 end
 
