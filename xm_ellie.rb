@@ -43,7 +43,7 @@ end
 
 class XMEllie
 
-	attr_reader :contents
+	attr_reader :content
 
 	def initialize (content = "")
 		@content = content
