@@ -43,6 +43,8 @@ end
 
 class XMEllie
 
+	attr_reader :contents
+
 	def initialize (content = "")
 		@content = content
 	end
@@ -51,10 +53,6 @@ class XMEllie
 		raise "Empty element" if @content.empty?
 		sub_xmls = create_sub_xmls method_name
 		XMEllies.new sub_xmls
-	end
-
-	def content
-		@content
 	end
 
 	private
