@@ -147,6 +147,7 @@ describe XMEllie do
 		it "First example" do
 			xml = XMEllie.new '  <user active="true"><name>thom</name><surname origin="brazil">silva</surname><surname origin="german">schmitz</surname></user>'
 			"true".should eq xml.props[:active]
+			["thom"].should eq xml.user.name.content
 			"brazil".should eq xml.user.surname[0].props[:origin]
 			"german".should eq xml.user.surname[1].props[:origin]
 			["silva", "schmitz"].should eq xml.user.surname.content
