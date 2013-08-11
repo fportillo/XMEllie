@@ -32,6 +32,10 @@ class XMEllie
 	end
 
 	def content
+		if (@root_name)
+			return @content
+		end
+		
 		a = (@content.index ">") + 1
 		b = (@content.rindex "<") - 1
 		@content[a..b]
@@ -39,6 +43,8 @@ class XMEllie
 
 	private
 	def create_sub_xmls root_name
+		@root_name = root_name
+
 		if (@content.empty?)
 			return []
 		end
@@ -76,6 +82,12 @@ describe XMEllie do
 		it "Simple emptyness" do
 			xml = XMEllie.new
 			expect { xml.first }.to raise_error
+		end
+
+		it "Content emptyness" do
+			xml = XMEllie.new "<first></first>"
+			[""].should eq xml.first.content
+			"<first></first>".should eq xml.content
 		end
 
 		it "Composite emptyness" do
