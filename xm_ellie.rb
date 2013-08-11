@@ -7,7 +7,8 @@ class XMEllies < Array
 
 	attr_reader :xmls
 
-	def initialize(xmls = [])
+	def initialize(xmls = "")
+		super [xmls]
 		@xmls = xmls
 	end
 
@@ -37,10 +38,6 @@ class XMEllies < Array
 		@xmls.collect &block
 	end
 
-	def each &block
-		@xmls.each &block
-	end
-
 	def content
 		@xmls.collect do |x|
 			content = x.content
@@ -49,19 +46,6 @@ class XMEllies < Array
 			b = (content.rindex "<") - 1
 			content[a..b].strip
 		end
-	end
-
-	private
-	def create_props_map props_string
-		map = {}
-		props_string = props_string.split
-		props_string.shift
-		props_string.each do |p|
-			b = p.split "="
-			sim = b[0].to_sym
-			map[sim] = b[1]
-		end
-		map
 	end
 end
 
