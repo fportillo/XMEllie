@@ -14,9 +14,7 @@ class XMEllies
 	end
 
 	def content
-		a = []
-		@xml.each { |x| a.concat x.content }
-		a
+		@xml.collect { |x| x.content }
 	end
 
 end
@@ -24,33 +22,37 @@ end
 class XMEllie
 
 	def initialize (xmls = [])
-		@contents = (xmls.is_a? String) ? [xmls] : xmls
+		@xmls = xmls
 	end
 
 	def method_missing (m, *args, &block)
-		raise "Empty element" if @contents.empty?
+		raise "Empty element" if @xmls.empty?
 		sub_xmls = parse m;
 		xm_ellies = sub_xmls.collect { |sub_xml| XMEllie.new sub_xml }
 		XMEllies.new xm_ellies
 	end
 
 	def content
-		@contents
+		@xmls
 	end
 
 	private
 	def parse tag_name
 		sub_xmls = []
-		@contents.each do |xml|
-			b = xml.enum_for(:scan,/<#{tag_name}[^>]*>/).map { |match| Regexp.last_match.begin(0) + match.length }
-			e = xml.enum_for(:scan,/<\/#{tag_name}>/).map { Regexp.last_match.begin(0) - 1}	
+		xml = @xmls
 
-			check_matches(b, e)
+		if (xml.empty?)
+			return []
+		end
 
-			b.each_index do |i|
-				content = xml[b[i]..e[i]]
-				sub_xmls.push content unless content.empty?
-			end
+		b = xml.enum_for(:scan,/<#{tag_name}[^>]*>/).map { |match| Regexp.last_match.begin(0) + match.length }
+		e = xml.enum_for(:scan,/<\/#{tag_name}>/).map { Regexp.last_match.begin(0) - 1}	
+
+		check_matches(b, e)
+
+		b.each_index do |i|
+			content = xml[b[i]..e[i]]
+			sub_xmls.push content unless content.empty?
 		end
 
 		sub_xmls
