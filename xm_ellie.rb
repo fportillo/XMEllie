@@ -38,9 +38,6 @@ class XMEllie
 
 	private
 	def parse tag_name
-		sub_xmls = []
-		@xmls
-
 		if (@xmls.empty?)
 			return []
 		end
@@ -50,6 +47,7 @@ class XMEllie
 
 		check_matches(b, e)
 
+		sub_xmls = []
 		b.each_index do |i|
 			content = @xmls[b[i]..e[i]]
 			sub_xmls.push content unless content.empty?
