@@ -5,16 +5,38 @@ end
 
 class XMEllies
 
-	def initialize(xmls)
+	attr_reader :xmls
+
+	def initialize(xmls = [])
 		@xmls = xmls
 	end
 
 	def method_missing (m, *args, &block)
-		@xmls[0].method_missing m, args, block
+		a = []
+
+		@xmls.each do |x|
+			begin
+				b = (x.method_missing m, args, block)
+				a.concat b.xmls
+			rescue
+			end
+		end
+
+		if (a.empty?)
+			raise "Element not found #{m}"
+		end
+
+		XMEllies.new a 
 	end
 
 	def content
-		@xmls.collect { |x| x.content }
+		@xmls.collect do |x|
+			content = x.content
+			
+			a = (content.index ">") + 1
+			b = (content.rindex "<") - 1
+			content[a..b]
+		end
 	end
 
 end
@@ -32,18 +54,11 @@ class XMEllie
 	end
 
 	def content
-		if (@root_name)
-			return @content
-		end
-		
-		a = (@content.index ">") + 1
-		b = (@content.rindex "<") - 1
-		@content[a..b]
+		@content
 	end
 
 	private
 	def create_sub_xmls root_name
-		@root_name = root_name
 
 		if (@content.empty?)
 			return []
@@ -52,7 +67,7 @@ class XMEllie
 		starts = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { |match| Regexp.last_match.begin(0)}
 		ends = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0)}	
 
-		check_integrity(starts, ends)
+		check_integrity(starts, ends, root_name)
 
 		sub_xmls = []
 		starts.each_index do |i|
@@ -62,14 +77,15 @@ class XMEllie
 		sub_xmls
 	end
 
-	def check_integrity starts, ends
+	def check_integrity starts, ends, name
 		if (starts.length != ends.length)
 			raise "Malformed XML"
 		end
 
-		if (starts.empty?) 
-			raise "Element not found"
+		if (starts.empty?)
+			raise "Element not found #{name}"
 		end
+
 	end
 end
 
@@ -87,7 +103,11 @@ describe XMEllie do
 		it "Content emptyness" do
 			xml = XMEllie.new "<first></first>"
 			[""].should eq xml.first.content
-			"<first></first>".should eq xml.content
+		end
+
+		it "Content emptyness" do
+			xml = XMEllie.new "<first></first>"
+			expect { xml.foo }.to raise_error
 		end
 
 		it "Composite emptyness" do
@@ -121,7 +141,13 @@ describe XMEllie do
 		end
 	end
 
-	describe "Single elements" do
+	describe "Contents" do
+
+		it "Root element" do 
+			xml = XMEllie.new "<first></first>"
+			"<first></first>".should eq xml.content
+		end
+		
 		before { @xml = XMEllie.new '<first><seconda>contenta</seconda><secondb>contentb</secondb></first>' }
 
 		it "First element" do
@@ -143,7 +169,7 @@ describe XMEllie do
 	end
 
 	describe "Array of elements" do
-		before { @xml = XMEllie.new '<first><second>content1</second><second>content2</second></first>' }		
+		before { @xml = XMEllie.new '<first><second>content1</second><second>content2</second></first>' }
 
 		it "First element" do
 			["<second>content1</second><second>content2</second>"].should eq @xml.first.content
@@ -157,4 +183,26 @@ describe XMEllie do
 			["content1", "content2"].should eq @xml.first.second.content
 		end
 	end
+
+	describe "Adavanced array of elements" do
+
+		it "Half three levels" do
+			xml = XMEllie.new '<first><second></second><second><third>content2</third></second></first>'
+			["content2"].should eq xml.first.second.third.content
+		end
+
+		it "Three levels" do
+			xml = XMEllie.new '<first><second><third>content1</third></second><second><third>content2</third></second></first>'
+			["content1", "content2"].should eq xml.first.second.third.content
+		end
+	end
 end
+
+
+
+
+
+
+
+
+
