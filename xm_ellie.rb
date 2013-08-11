@@ -32,7 +32,9 @@ class XMEllie
 	end
 
 	def content
-		@content
+		a = (@content.index ">") + 1
+		b = (@content.index "<") - 1
+		@content[a..b]
 	end
 
 	private
@@ -41,8 +43,8 @@ class XMEllie
 			return []
 		end
 
-		b = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { |match| Regexp.last_match.begin(0) + match.length }
-		e = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0) - 1}	
+		b = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { |match| Regexp.last_match.begin(0)}
+		e = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0)}	
 
 		check_matches(b, e)
 
