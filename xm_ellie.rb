@@ -56,12 +56,12 @@ class XMEllie
 		sub_xmls
 	end
 
-	def check_integrity b, e
-		if (b.length != e.length)
+	def check_integrity starts, ends
+		if (starts.length != ends.length)
 			raise "Malformed XML"
 		end
 
-		if (b.empty?) 
+		if (starts.empty?) 
 			raise "Element not found"
 		end
 	end
