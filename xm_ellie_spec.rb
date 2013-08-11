@@ -139,4 +139,17 @@ describe XMEllie do
 			["content"].should eq xml.first.second.content
 		end
 	end
+
+
+	describe "GitHub README.md test" do
+
+		it "k" do
+			xml = XMEllie.new '<root a="true"> <second b="foo"> good </second> <second b="bar"> awesome </second> </root>'
+			"true".should eq xml.props[:a]
+			"foo".should eq xml.root.second[0].props[:b]
+			"bar".should eq xml.root.second[1].props[:b]
+			["good", "awesome"].should eq xml.root.second.content
+			["foo", "bar"].should eq xml.root.second.collect { |x| x.props[:b]}
+		end
+	end
 end

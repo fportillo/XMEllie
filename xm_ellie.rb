@@ -3,7 +3,7 @@
 class XMEllieException
 end
 
-class XMEllies
+class XMEllies < Array
 
 	attr_reader :xmls
 
@@ -33,13 +33,17 @@ class XMEllies
 		@xmls[i]
 	end
 
+	def collect &block
+		@xmls.collect &block
+	end
+
 	def content
 		@xmls.collect do |x|
 			content = x.content
 			
 			a = (content.index ">") + 1
 			b = (content.rindex "<") - 1
-			content[a..b]
+			content[a..b].strip
 		end
 	end
 
