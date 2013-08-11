@@ -3,25 +3,28 @@
 class XMEllieException
 end
 
+class XMEllies
+
+end
 class XMEllie
 
 	def initialize (xmls = [])
-		@xmls = (xmls.is_a? String) ? [xmls] : xmls
+		@contents = (xmls.is_a? String) ? [xmls] : xmls
 	end
 
 	def method_missing (m, *args, &block)
-		raise "Empty element" if @xmls.empty?
+		raise "Empty element" if @contents.empty?
 		XMEllie.new parse m
 	end
 
 	def content
-		@xmls
+		@contents
 	end
 
 	private
 	def parse tag_name
 		sub_xmls = []
-		@xmls.each do |xml|  
+		@contents.each do |xml|
 			b = xml.enum_for(:scan,/<#{tag_name}[^>]*>/).map { |match| Regexp.last_match.begin(0) + match.length }
 			e = xml.enum_for(:scan,/<\/#{tag_name}>/).map { Regexp.last_match.begin(0) - 1}	
 
