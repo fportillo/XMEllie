@@ -5,7 +5,22 @@ end
 
 class XMEllies
 
+	def initialize(xml)
+		@xml = xml
+	end
+
+	def method_missing (m, *args, &block)
+		@xml[0].method_missing m, args, block
+	end
+
+	def content
+		a = []
+		@xml.each { |x| a.concat x.content }
+		a
+	end
+
 end
+
 class XMEllie
 
 	def initialize (xmls = [])
@@ -13,9 +28,10 @@ class XMEllie
 	end
 
 	def method_missing (m, *args, &block)
-		@name = m
 		raise "Empty element" if @contents.empty?
-		XMEllie.new parse m
+		sub_xmls = parse m;
+		xm_ellies = sub_xmls.collect { |sub_xml| XMEllie.new sub_xml }
+		XMEllies.new xm_ellies
 	end
 
 	def content
@@ -127,18 +143,6 @@ describe XMEllie do
 
 		it "First array" do
 			["content1", "content2"].should eq @xml.first.second.content
-		end
-	end
-
-	describe "Elements with properties" do
-		it "First content" do
-			xml = XMEllie.new '<first time="123123">content</first>'
-			["content"].should eq xml.first.content
-		end
-
-		it "First content" do
-			xml = XMEllie.new '<first time="123123"><second>content1</second><second>content2</second></first>'
-			["content1", "content2"].should eq xml.first.second.content
 		end
 	end
 end
