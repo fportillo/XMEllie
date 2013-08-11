@@ -33,7 +33,7 @@ class XMEllie
 
 	def content
 		a = (@content.index ">") + 1
-		b = (@content.index "<") - 2
+		b = (@content.rindex "<") - 1
 		@content[a..b]
 	end
 
