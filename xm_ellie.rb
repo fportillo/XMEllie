@@ -200,6 +200,17 @@ describe XMEllie do
 			["<fourth>content1</fourth>", "content2"].should eq xml.first.second.third.content #should be this way?
 		end
 	end
+
+	describe "Props" do
+
+		it "Simple property" do
+			xml = '<first time="12345"></first>'
+			[""].should eq xml.first.content
+
+		end
+
+
+	end
 end
 
 
