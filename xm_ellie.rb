@@ -7,9 +7,8 @@ class XMEllies < Array
 
 	attr_reader :xmls
 
-	def initialize(xmls = "")
-		super [xmls]
-		p self
+	def initialize(xmls = [])
+		super xmls
 		@xmls = xmls
 	end
 
