@@ -39,19 +39,19 @@ class XMEllie
 	private
 	def parse tag_name
 		sub_xmls = []
-		xml = @xmls
+		@xmls
 
-		if (xml.empty?)
+		if (@xmls.empty?)
 			return []
 		end
 
-		b = xml.enum_for(:scan,/<#{tag_name}[^>]*>/).map { |match| Regexp.last_match.begin(0) + match.length }
-		e = xml.enum_for(:scan,/<\/#{tag_name}>/).map { Regexp.last_match.begin(0) - 1}	
+		b = @xmls.enum_for(:scan,/<#{tag_name}[^>]*>/).map { |match| Regexp.last_match.begin(0) + match.length }
+		e = @xmls.enum_for(:scan,/<\/#{tag_name}>/).map { Regexp.last_match.begin(0) - 1}	
 
 		check_matches(b, e)
 
 		b.each_index do |i|
-			content = xml[b[i]..e[i]]
+			content = @xmls[b[i]..e[i]]
 			sub_xmls.push content unless content.empty?
 		end
 
