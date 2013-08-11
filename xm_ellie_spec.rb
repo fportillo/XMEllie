@@ -1,5 +1,6 @@
 require "rspec"
 require "./xm_ellie"
+require "./xm_ellie_iterator"
 
 describe XMEllie do
 

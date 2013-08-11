@@ -1,38 +1,4 @@
-#TODO: Starting-closing elements. (e.g. <first />)
-
-class XMEllieException
-end
-
-class XMEllies < Array
-
-	def method_missing (m, *args, &block)
-		a = []
-
-		each do |x|
-			begin
-				b = (x.method_missing m, args, block)
-				a.concat b
-			rescue
-			end
-		end
-
-		if (a.empty?)
-			raise "Element not found #{m} or Malformed XML"
-		end
-
-		XMEllies.new a 
-	end
-
-	def content
-		collect do |x|
-			content = x.content
-			
-			a = (content.index ">") + 1
-			b = (content.rindex "<") - 1
-			content[a..b].strip
-		end
-	end
-end
+require "./xm_ellie_iterator"
 
 class XMEllie
 
@@ -45,7 +11,7 @@ class XMEllie
 	def method_missing (method_name, *args, &block)
 		raise "Empty element" if @content.empty?
 		sub_xmls = create_sub_xmls method_name
-		XMEllies.new sub_xmls
+		XMEllieIterator.new sub_xmls
 	end
 
 	def props
