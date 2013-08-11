@@ -25,9 +25,9 @@ class XMEllie
 		@content = content
 	end
 
-	def method_missing (m, *args, &block)
+	def method_missing (method_name, *args, &block)
 		raise "Empty element" if @content.empty?
-		sub_xmls = parse m;
+		sub_xmls = parse method_name
 		xm_ellies = sub_xmls.collect { |sub_xml| XMEllie.new sub_xml }
 		XMEllies.new xm_ellies
 	end
