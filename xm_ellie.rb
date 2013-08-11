@@ -5,16 +5,16 @@ end
 
 class XMEllies
 
-	def initialize(xml)
-		@xml = xml
+	def initialize(xmls)
+		@xmls = xmls
 	end
 
 	def method_missing (m, *args, &block)
-		@xml[0].method_missing m, args, block
+		@xmls[0].method_missing m, args, block
 	end
 
 	def content
-		@xml.collect { |x| x.content }
+		@xmls.collect { |x| x.content }
 	end
 
 end
