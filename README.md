@@ -5,13 +5,16 @@ XMEllie allows you to navigate through a XML naturally.
 
 <pre>
 <code>
-  <root a="true">
-    <second b="foo">
-      good
-    </second>
-    <second b="bar">
-      awesome
-    </second>
-  </root>
-<code>
+  <user active="true">
+    <name>
+      thom
+    </name>
+    <surname origin="brazil">
+      silva
+    </surname>
+    <surname origin="german">
+      schmitz
+    </surname>
+  </user>
+</code>
 <pre>
