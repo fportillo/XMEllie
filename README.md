@@ -1,33 +1,38 @@
-XMEllie
-=======
-
 XMEllie allows you to navigate through a XML naturally. 
+-------------------------------------------------------
 
-<pre>
-<code>
-  &lt;user active="true"&gt;
-    &lt;name&gt;
+Having this:
+```xml
+  <user active="true">
+    <name>
       thom
-    &lt;/name&gt;
-    &lt;surname origin="brazil"&gt;
+    </name>
+    <surname origin="brazil">
       silva
-    &lt;/surname&gt;
-    &lt;surname origin="german"&gt;
+    </surname>
+    <surname origin="german">
       schmitz
-    &lt;/surname&gt;
-  &lt;/user&gt;
-</code>
-</pre>
+    </surname>
+  </user>
+```
+You can do this:
 
-<pre>
-<code>
 ```ruby
   xml.user[0].props[:active]
+  ==> "true"
+  
   xml.user.name.content
+  ==> ["thom"]
+  
   xml.user.surname[0].props[:origin]
+  ==> "brazil"
+  
   xml.user.surname[1].props[:origin]
+  ==> "german"
+  
   xml.user.surname.content
+  ==> ["silva", "schmitz"]
+  
   xml.user.surname.collect { |x| x.props[:origin] }
+  ==> ["brazil", "german"]
 ```
-</code>
-</pre>
