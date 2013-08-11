@@ -9,6 +9,7 @@ class XMEllies < Array
 
 	def initialize(xmls = "")
 		super [xmls]
+		p self
 		@xmls = xmls
 	end
 
