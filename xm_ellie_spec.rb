@@ -120,9 +120,23 @@ describe XMEllie do
 			[""].should eq xml.first.content
 		end
 
-		# it "Simple property" do
-		# 	xml = XMEllie.new '<first time="12345"></first>'
-		# 	[:time => 12345].should eq xml.first.props
-		# end
+		it "Simple property" do
+			xml = XMEllie.new '<first time="12345">bla</first>'
+			"12345".should eq xml.props[:time]
+		end
+
+		it "Composite properties" do
+			xml = XMEllie.new '<first time="12345" kind="mid">bla</first>'
+			"12345".should eq xml.props[:time]
+			"mid".should eq xml.props[:kind]
+		end
+
+		it "Nested properties" do
+			xml = XMEllie.new '<first time="12345" kind="mid"><second time="67890">content</second></first>'
+			"mid".should eq xml.props[:kind]
+			"12345".should eq xml.props[:time]
+			"67890".should eq xml.first.second[0].props[:time]
+			["content"].should eq xml.first.second.content
+		end
 	end
 end

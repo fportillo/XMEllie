@@ -23,20 +23,14 @@ class XMEllies
 		end
 
 		if (a.empty?)
-			raise "Element not found #{m}"
+			raise "Element not found #{m} or Malformed XML"
 		end
 
 		XMEllies.new a 
 	end
 
-	def props 
-		@xmls.each do |x|
-			content = x.content
-			a = (content.index "<") + 1
-			b = (content.rindex ">") - 1
-
-			create_props_map content[a..b]
-		end
+	def [](i)
+		@xmls[i]
 	end
 
 	def content
@@ -52,12 +46,13 @@ class XMEllies
 	private
 	def create_props_map props_string
 		map = {}
-		props_string.split.shift
+		props_string = props_string.split
+		props_string.shift
 		props_string.each do |p|
 			b = p.split "="
-			map.put b[0].to_sym, b[1]
+			sim = b[0].to_sym
+			map[sim] = b[1]
 		end
-		p map
 		map
 	end
 end
@@ -76,7 +71,26 @@ class XMEllie
 		XMEllies.new sub_xmls
 	end
 
+	def props
+		a = (@content.index "<") + 1
+		b = (@content.index ">") - 1
+
+		create_props_map @content[a..b]
+	end
+
 	private
+	def create_props_map props_string
+		map = {}
+		props_string = props_string.split
+		props_string.shift
+		props_string.each do |p|
+			b = p.split "="
+			sim = b[0].to_sym
+			map[sim] = b[1][1..-2]
+		end
+		map
+	end
+
 	def create_sub_xmls root_name
 
 		if (@content.empty?)
