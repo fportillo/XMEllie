@@ -43,20 +43,20 @@ class XMEllie
 			return []
 		end
 
-		b = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { |match| Regexp.last_match.begin(0)}
-		e = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0)}	
+		starts = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { |match| Regexp.last_match.begin(0)}
+		ends = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0)}	
 
-		check_matches(b, e)
+		check_integrity(starts, ends)
 
 		sub_xmls = []
-		b.each_index do |i|
-			content = @content[b[i]..e[i]]
+		starts.each_index do |i|
+			content = @content[starts[i]..ends[i]]
 			sub_xmls.push XMEllie.new content unless content.empty?
 		end
 		sub_xmls
 	end
 
-	def check_matches b, e
+	def check_integrity b, e
 		if (b.length != e.length)
 			raise "Malformed XML"
 		end
