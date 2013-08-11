@@ -27,9 +27,8 @@ class XMEllie
 
 	def method_missing (method_name, *args, &block)
 		raise "Empty element" if @content.empty?
-		sub_xmls = parse method_name
-		xm_ellies = sub_xmls.collect { |sub_xml| XMEllie.new sub_xml }
-		XMEllies.new xm_ellies
+		sub_xmls = create_sub_xmls method_name
+		XMEllies.new sub_xmls
 	end
 
 	def content
@@ -37,20 +36,20 @@ class XMEllie
 	end
 
 	private
-	def parse tag_name
+	def create_sub_xmls root_name
 		if (@content.empty?)
 			return []
 		end
 
-		b = @content.enum_for(:scan,/<#{tag_name}[^>]*>/).map { |match| Regexp.last_match.begin(0) + match.length }
-		e = @content.enum_for(:scan,/<\/#{tag_name}>/).map { Regexp.last_match.begin(0) - 1}	
+		b = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { |match| Regexp.last_match.begin(0) + match.length }
+		e = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0) - 1}	
 
 		check_matches(b, e)
 
 		sub_xmls = []
 		b.each_index do |i|
 			content = @content[b[i]..e[i]]
-			sub_xmls.push content unless content.empty?
+			sub_xmls.push XMEllie.new content unless content.empty?
 		end
 		sub_xmls
 	end
