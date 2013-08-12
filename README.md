@@ -18,6 +18,8 @@ Having this:
 You can do this:
 
 ```ruby
+  xml = XMEllie.new '<user active="true"><name>thom</name><surname origin="brazil">silva</surname><surname origin="german">schmitz</surname></user>'
+
   xml.user[0].props[:active]
   ==> "true"
   
