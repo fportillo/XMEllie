@@ -10,7 +10,7 @@ Having this:
     <surname origin="brazil">
       silva
     </surname>
-    <surname origin="german">
+    <surname origin="germany">
       schmitz
     </surname>
   </user>
@@ -18,7 +18,7 @@ Having this:
 You can do this:
 
 ```ruby
-  xml = XMEllie.new '<user active="true"><name>thom</name><surname origin="brazil">silva</surname><surname origin="german">schmitz</surname></user>'
+  xml = XMEllie.new '<user active="true"><name>thom</name><surname origin="brazil">silva</surname><surname origin="germany">schmitz</surname></user>'
 
   xml.user[0].props[:active]
   ==> "true"
@@ -30,11 +30,11 @@ You can do this:
   ==> "brazil"
   
   xml.user.surname[1].props[:origin]
-  ==> "german"
+  ==> "germany"
   
   xml.user.surname.content
   ==> ["silva", "schmitz"]
   
   xml.user.surname.collect { |x| x.props[:origin] }
-  ==> ["brazil", "german"]
+  ==> ["brazil", "germany"]
 ```
