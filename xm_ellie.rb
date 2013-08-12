@@ -41,8 +41,8 @@ class XMEllie
 			return []
 		end
 
-		starts = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { |match| Regexp.last_match.begin(0)}
-		ends = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0)}	
+		starts = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { Regexp.last_match.begin(0) }
+		ends = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0) }	
 
 		check_integrity(starts, ends, root_name)
 
