@@ -29,8 +29,8 @@ class XMEllie
 		props_string = props_string.enum_for(:scan,/\w+=\"[^\"]*\"/)
 		props_string.each do |p|
 			b = p.split "="
-			sim = b[0].to_sym
-			map[sim] = b[1][1..-2]
+			sym = b[0].to_sym
+			map[sym] = b[1][1..-2]
 		end
 		map
 	end
