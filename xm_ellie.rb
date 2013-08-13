@@ -16,11 +16,10 @@ class XMEllie
 	end
 
 	def props
-		return @props if (@props) 
+		return @props if (@props)
 
-		a = (@content.index "<") + 1
-		b = (@content.index ">") - 1
-		@props = create_props_map @content[a..b]
+		a = (@content.index ">") - 1
+		@props = create_props_map @content[1..a]
 	end
 
 	private
