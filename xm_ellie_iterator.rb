@@ -1,8 +1,3 @@
-#TODO: Starting-closing elements. (e.g. <first />)
-
-class XMEllieException
-end
-
 class XMEllieIterator < Array
 
 	def method_missing (m, *args, &block)
