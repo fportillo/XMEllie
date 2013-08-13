@@ -36,10 +36,7 @@ class XMEllie
 	end
 
 	def create_sub_xmls root_name
-
-		if (@content.empty?)
-			return []
-		end
+		return [] if @content.empty?
 
 		starts = @content.enum_for(:scan,/<#{root_name}[^>]*>/).map { Regexp.last_match.begin(0) }
 		ends = @content.enum_for(:scan,/<\/#{root_name}>/).map { Regexp.last_match.begin(0) }	
