@@ -17,16 +17,15 @@ class XMEllie
 	def props
 		return @props if (@props) 
 
-		a = (@content.index "<") + 1
-		b = (@content.index ">") - 1
-		@props = create_props_map @content[a..b]
+		a = (@content.index ">") - 1
+		@props = create_props_map @content[0..a]
 	end
 
 	private
 	def create_props_map props_string
 		map = {}
-		props_string = props_string.split
-		props_string.shift
+		props_string = props_string.gsub /<\w*\ /, ""
+		props_string = props_string.enum_for(:scan,/\w+=\"[\w\ ]*\"/)
 		props_string.each do |p|
 			b = p.split "="
 			sim = b[0].to_sym

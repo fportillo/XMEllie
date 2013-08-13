@@ -141,6 +141,12 @@ describe XMEllie do
 		end
 	end
 
+	describe "Properties with white space" do
+		it "Basic case" do
+			xml = XMEllie.new '<first time="123 45" kind="mid"></first>'
+			"123 45".should eq xml.first[0].props[:time]
+		end
+	end
 
 	describe "GitHub README.md test" do
 		it "First example" do
