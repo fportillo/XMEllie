@@ -18,7 +18,7 @@ describe XMEllie do
 
 		it "Content emptyness" do
 			xml = XMEllie.new "<first></first>"
-			expect { xml.foo }.to raise_error
+			nil.should eq xml.foo
 		end
 
 		it "Composite emptyness" do

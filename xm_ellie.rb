@@ -11,6 +11,7 @@ class XMEllie
 	def method_missing (method_name, *args, &block)
 		raise "Empty element" if @content.empty?
 		sub_xmls = create_sub_xmls method_name
+		return nil if sub_xmls.empty?
 		XMEllieIterator.new sub_xmls
 	end
 
@@ -56,10 +57,6 @@ class XMEllie
 	def check_integrity starts, ends, name
 		if (starts.length != ends.length)
 			raise "Malformed XML"
-		end
-
-		if (starts.empty?)
-			raise "Element not found #{name}"
 		end
 	end
 end
